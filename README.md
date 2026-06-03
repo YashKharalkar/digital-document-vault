@@ -164,3 +164,18 @@ Build Validation Success / Failure
 **Yash Kharalkar**
 
 GitHub: https://github.com/YashKharalkar
+
+<img width="1881" height="955" alt="2026-06-03 23_13_41-Settings" src="https://github.com/user-attachments/assets/870c67bb-1dc8-45b2-8026-f7928d6726b9" />
+<img width="1876" height="947" alt="2026-06-03 23_14_10-Settings" src="https://github.com/user-attachments/assets/f077d550-ac78-4104-9112-ce3442c13003" />
+<img width="1874" height="952" alt="2026-06-03 23_14_31-Settings" src="https://github.com/user-attachments/assets/79bbdd44-5d3c-42fa-bb12-b8d58523bec8" />
+<img width="1875" height="959" alt="2026-06-03 23_15_02-Settings" src="https://github.com/user-attachments/assets/39ba1b58-7a9e-4fe1-86e2-ddb2baefb2e8" />
+<img width="1871" height="948" alt="2026-06-03 23_15_39-Settings" src="https://github.com/user-attachments/assets/6bd98c8e-aeb7-4cf2-b214-0d30774450ff" />
+<img width="1882" height="954" alt="2026-06-03 23_16_12-Settings" src="https://github.com/user-attachments/assets/1c0a5392-95c6-45b6-a75a-eedaa5226606" />
+
+
+
+
+
+
+
+
