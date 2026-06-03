@@ -50,7 +50,9 @@ export default function FolderView() {
           <div className="breadcrumb">
             <span onClick={() => navigate('/vault')}>My Vault</span>
             <span className="sep">›</span>
-            <span className="current">📁 {folder?.name || '...'}</span>
+            <span className="current">
+              📁 {folder?.name || '...'}
+            </span>
           </div>
 
           <div className="page-header">

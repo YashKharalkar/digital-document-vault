@@ -8,7 +8,7 @@ import ConfirmModal from '../components/ConfirmModal';
 import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderClosed } from '@fortawesome/free-regular-svg-icons';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
 import { toast } from '../components/Toast';
 
 export default function Vault() {
@@ -147,8 +147,12 @@ export default function Vault() {
                         ) : (
                           <>
                             <div className="folder-actions">
-                              <button className="icon-btn" title="Rename" onClick={(e) => { e.stopPropagation(); setEditingFolder(folder); setEditName(folder.name); }}>✏️</button>
-                              <button className="icon-btn danger" title="Delete" onClick={(e) => { e.stopPropagation(); setConfirmDelete(folder); }}>🗑️</button>
+                              <button className="icon-btn" title="Rename" onClick={(e) => { e.stopPropagation(); setEditingFolder(folder); setEditName(folder.name); }}>
+                                <FontAwesomeIcon icon={faPen} />
+                              </button>
+                              <button className="icon-btn danger" title="Delete" onClick={(e) => { e.stopPropagation(); setConfirmDelete(folder); }}>
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
                             </div>
                             <div onClick={() => navigate(`/vault/folder/${folder._id}`)}>
                               <div className="folder-icon">📁</div>

@@ -4,7 +4,7 @@ import Topbar from '../components/Topbar';
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFile, faFileLines } from '@fortawesome/free-regular-svg-icons';
+import { faFile, faFileLines, faFolderClosed } from '@fortawesome/free-regular-svg-icons';
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 
 function formatSize(bytes) {
@@ -85,7 +85,9 @@ export default function Dashboard() {
                 </div>
                 {stats?.recentUploads?.length === 0 ? (
                   <div className="empty-state" style={{ padding: '28px' }}>
-                    <div className="empty-icon">📭</div>
+                    <div className="empty-icon" style={{ fontSize: '32px', color: 'var(--text-muted)' }}>
+                      <FontAwesomeIcon icon={faFolderClosed} />
+                    </div>
                     <p>No documents uploaded yet</p>
                     <div className="empty-sub">Go to My Vault to upload your first document</div>
                   </div>

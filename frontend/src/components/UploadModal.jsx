@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import api from '../api';
 import { toast } from './Toast';
-
-const FOLDER_OPTIONS = ['root', 'new', 'existing'];
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFile, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 export default function UploadModal({ folders, onClose, onSuccess, defaultFolderId }) {
   const [file, setFile] = useState(null);
@@ -65,7 +65,9 @@ export default function UploadModal({ folders, onClose, onSuccess, defaultFolder
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal">
         <div className="modal-header">
-          <span className="modal-title">📤 Upload Document</span>
+          <span className="modal-title">
+            <FontAwesomeIcon icon={faUpload} style={{ marginRight: '8px' }} /> Upload Document
+          </span>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
@@ -77,7 +79,9 @@ export default function UploadModal({ folders, onClose, onSuccess, defaultFolder
           onDrop={handleDrop}
           onClick={() => document.getElementById('file-input').click()}
         >
-          <div className="drop-icon">{file ? '📄' : '☁️'}</div>
+          <div className="drop-icon" style={{ fontSize: '32px', marginBottom: '10px', color: 'var(--accent)' }}>
+            {file ? <FontAwesomeIcon icon={faFile} /> : <FontAwesomeIcon icon={faUpload} />}
+          </div>
           <p>{file ? file.name : 'Click or drag a file here'}</p>
           <div className="drop-sub">PDF, Images, Word · Max 10 MB</div>
           <input id="file-input" type="file" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.doc,.docx" onChange={handleFileChange} />
@@ -99,9 +103,9 @@ export default function UploadModal({ folders, onClose, onSuccess, defaultFolder
         <div className="form-group">
           <label>Save to</label>
           <select className="form-select" value={folderMode} onChange={(e) => setFolderMode(e.target.value)}>
-            <option value="root">📦 My Vault (root)</option>
-            <option value="existing">📁 Existing folder</option>
-            <option value="new">✨ Create new folder</option>
+            <option value="root">My Vault (root)</option>
+            <option value="existing">Existing folder</option>
+            <option value="new">Create new folder</option>
           </select>
 
           {folderMode === 'existing' && (
@@ -127,7 +131,7 @@ export default function UploadModal({ folders, onClose, onSuccess, defaultFolder
         <div className="modal-footer">
           <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
           <button className="btn btn-primary" onClick={handleSubmit} disabled={uploading}>
-            {uploading ? 'Uploading...' : '📤 Upload'}
+            <FontAwesomeIcon icon={faUpload} style={{ marginRight: '6px' }} /> {uploading ? 'Uploading...' : 'Upload'}
           </button>
         </div>
       </div>
