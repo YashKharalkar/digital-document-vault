@@ -34,7 +34,6 @@ export default function UploadModal({ folders, onClose, onSuccess, defaultFolder
     try {
       let folderId = null;
 
-      // Create new folder if needed
       if (folderMode === 'new') {
         if (!newFolderName.trim()) return toast('Enter a folder name', 'error');
         const res = await api.post('/folders', { name: newFolderName.trim() });

@@ -22,11 +22,8 @@ export default function ShareView() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Just display info — the actual download is via /api/share/:token
-    // We need to fetch doc metadata; use a lightweight approach
-    // Since the share route downloads directly, we'll just show a download prompt
     setLoading(false);
-    setDoc({ token }); // minimal state, real content served from backend
+    setDoc({ token });
   }, [token]);
 
   const downloadUrl = `/api/share/${token}`;

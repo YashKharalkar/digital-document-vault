@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileShield } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -31,7 +33,9 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo">
-          <div className="logo-icon-big">🗄️</div>
+          <div className="logo-icon-big">
+            <FontAwesomeIcon icon={faFileShield} />
+          </div>
           <h1>Welcome Back</h1>
           <p>Sign in to access your vault</p>
         </div>

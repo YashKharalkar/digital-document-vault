@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import api from '../api';
 import { toast } from './Toast';
+import ConfirmModal from './ConfirmModal';
 
 const FILE_ICONS = {
   'application/pdf': '📕',
@@ -20,6 +22,7 @@ function formatDate(dateStr) {
 }
 
 export default function DocumentCard({ doc, onDelete }) {
+  const [showConfirm, setShowConfirm] = useState(false);
   const icon = FILE_ICONS[doc.mimeType] || '📄';
 
   const handleShare = () => {
@@ -28,14 +31,15 @@ export default function DocumentCard({ doc, onDelete }) {
     toast('Share link copied to clipboard!');
   };
 
-  const handleDelete = async () => {
-    if (!window.confirm(`Delete "${doc.title}"?`)) return;
+  const handleDeleteConfirmed = async () => {
     try {
       await api.delete(`/documents/${doc._id}`);
       toast('Document deleted');
       onDelete(doc._id);
     } catch {
       toast('Failed to delete document', 'error');
+    } finally {
+      setShowConfirm(false);
     }
   };
 
@@ -44,17 +48,29 @@ export default function DocumentCard({ doc, onDelete }) {
   };
 
   return (
-    <div className="doc-card">
-      <div className="doc-icon">{icon}</div>
-      <div className="doc-info">
-        <div className="doc-title">{doc.title}</div>
-        <div className="doc-meta">{formatSize(doc.fileSize)} · {formatDate(doc.createdAt)}{doc.description && ` · ${doc.description}`}</div>
+    <>
+      <div className="doc-card">
+        <div className="doc-icon">{icon}</div>
+        <div className="doc-info">
+          <div className="doc-title">{doc.title}</div>
+          <div className="doc-meta">{formatSize(doc.fileSize)} · {formatDate(doc.createdAt)}{doc.description && ` · ${doc.description}`}</div>
+        </div>
+        <div className="doc-actions">
+          <button className="icon-btn" onClick={handleDownload} title="Download">⬇️</button>
+          <button className="icon-btn" onClick={handleShare} title="Copy share link">🔗</button>
+          <button className="icon-btn danger" onClick={() => setShowConfirm(true)} title="Delete">🗑️</button>
+        </div>
       </div>
-      <div className="doc-actions">
-        <button className="icon-btn" onClick={handleDownload} title="Download">⬇️</button>
-        <button className="icon-btn" onClick={handleShare} title="Copy share link">🔗</button>
-        <button className="icon-btn danger" onClick={handleDelete} title="Delete">🗑️</button>
-      </div>
-    </div>
+
+      {showConfirm && (
+        <ConfirmModal
+          title="🗑️ Delete Document"
+          message={`Delete "${doc.title}"? This cannot be undone.`}
+          confirmLabel="Delete Document"
+          onConfirm={handleDeleteConfirmed}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+    </>
   );
 }

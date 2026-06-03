@@ -4,10 +4,8 @@ const auth = require('../middleware/auth');
 const Folder = require('../models/Folder');
 const Document = require('../models/Document');
 
-// All routes require authentication
 router.use(auth);
 
-// GET /api/folders — list all folders for current user
 router.get('/', async (req, res) => {
   try {
     const folders = await Folder.find({ owner: req.userId }).sort({ createdAt: 1 });
@@ -17,7 +15,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/folders — create a new folder
 router.post('/', async (req, res) => {
   try {
     const { name } = req.body;
@@ -30,7 +27,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/folders/:id — rename folder
 router.put('/:id', async (req, res) => {
   try {
     const folder = await Folder.findOne({ _id: req.params.id, owner: req.userId });
@@ -44,13 +40,11 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/folders/:id — delete folder and its documents
 router.delete('/:id', async (req, res) => {
   try {
     const folder = await Folder.findOne({ _id: req.params.id, owner: req.userId });
     if (!folder) return res.status(404).json({ message: 'Folder not found' });
 
-    // Delete all documents inside this folder
     await Document.deleteMany({ folderId: folder._id });
 
     await folder.deleteOne();
@@ -60,7 +54,6 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// GET /api/folders/:id/documents — get documents inside a folder
 router.get('/:id/documents', async (req, res) => {
   try {
     const folder = await Folder.findOne({ _id: req.params.id, owner: req.userId });

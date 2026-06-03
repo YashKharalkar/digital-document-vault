@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import Topbar from '../components/Topbar';
 import DocumentCard from '../components/DocumentCard';
 import api from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -32,82 +35,93 @@ export default function Search() {
     <div className="app-layout">
       <Sidebar />
       <main className="main-content">
-        <div className="page-header">
-          <h1>🔍 Search</h1>
-          <p>Search documents and folders in your vault</p>
-        </div>
-
-        <form onSubmit={handleSearch}>
-          <div className="search-bar" style={{ marginBottom: '28px' }}>
-            <span className="search-icon">🔍</span>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search documents or folders..."
-              autoFocus
-            />
-            <button className="btn btn-primary btn-sm" type="submit">Search</button>
+        <Topbar title="Search" />
+        <div className="page-body">
+          <div className="page-header">
+            <div className="page-header-left">
+              <h1>Search</h1>
+              <p>Search documents and folders in your vault</p>
+            </div>
           </div>
-        </form>
 
-        {loading && <div className="spinner"></div>}
+          <form onSubmit={handleSearch}>
+            <div className="search-bar">
+              <span className="search-icon">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </span>
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search documents or folders..."
+                autoFocus
+              />
+              <button className="btn btn-primary btn-sm" type="submit">Search</button>
+            </div>
+          </form>
 
-        {results && !loading && (
-          <>
-            {/* Folder results */}
-            {results.folders?.length > 0 && (
-              <div style={{ marginBottom: '24px' }}>
-                <div className="section-title" style={{ marginBottom: '12px' }}>
-                  📁 Folders ({results.folders.length})
-                </div>
-                <div className="folder-grid">
-                  {results.folders.map(f => (
-                    <div key={f._id} className="folder-card" onClick={() => navigate(`/vault/folder/${f._id}`)}>
-                      <div className="folder-icon">📁</div>
-                      <div className="folder-name">{f.name}</div>
-                      <div className="folder-meta">{new Date(f.createdAt).toLocaleDateString('en-IN')}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+          {loading && <div className="spinner" />}
 
-            {/* Document results */}
-            <div>
-              <div className="section-title" style={{ marginBottom: '12px' }}>
-                📄 Documents ({results.documents?.length ?? 0})
-              </div>
-              {results.documents?.length === 0 && results.folders?.length === 0 ? (
-                <div className="empty-state">
-                  <div className="empty-icon">🔎</div>
-                  <p>No results for "{query}"</p>
-                  <div className="empty-sub">Try a different search term</div>
-                </div>
-              ) : (
-                <div className="doc-list">
-                  {results.documents?.map(doc => (
-                    <div key={doc._id}>
-                      {doc.folderId && (
-                        <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px', paddingLeft: '4px' }}>
-                          📁 {doc.folderId.name}
-                        </div>
-                      )}
-                      <DocumentCard doc={doc} onDelete={onDocDelete} />
-                    </div>
-                  ))}
+          {results && !loading && (
+            <>
+              {/* Folder results */}
+              {results.folders?.length > 0 && (
+                <div style={{ marginBottom: '20px' }}>
+                  <div className="section-header">
+                    <span className="section-title">Folders ({results.folders.length})</span>
+                  </div>
+                  <div className="folder-grid">
+                    {results.folders.map(f => (
+                      <div key={f._id} className="folder-card" onClick={() => navigate(`/vault/folder/${f._id}`)}>
+                        <div className="folder-icon">📁</div>
+                        <div className="folder-name">{f.name}</div>
+                        <div className="folder-meta">{new Date(f.createdAt).toLocaleDateString('en-IN')}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
-            </div>
-          </>
-        )}
 
-        {!results && !loading && (
-          <div className="empty-state">
-            <div className="empty-icon">🔍</div>
-            <p>Start searching your vault</p>
-            <div className="empty-sub">Enter a document title or folder name above</div>
-          </div>
-        )}
+              {/* Document results */}
+              <div>
+                <div className="section-header">
+                  <span className="section-title">Documents ({results.documents?.length ?? 0})</span>
+                </div>
+                {results.documents?.length === 0 && results.folders?.length === 0 ? (
+                  <div className="empty-state">
+                    <div className="empty-icon" style={{ fontSize: '32px', color: 'var(--text-muted)' }}>
+                      <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    </div>
+                    <p>No results for "{query}"</p>
+                    <div className="empty-sub">Try a different search term</div>
+                  </div>
+                ) : (
+                  <div className="doc-list">
+                    {results.documents?.map(doc => (
+                      <div key={doc._id}>
+                        {doc.folderId && (
+                          <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px', paddingLeft: '4px' }}>
+                            📁 {doc.folderId.name}
+                          </div>
+                        )}
+                        <DocumentCard doc={doc} onDelete={onDocDelete} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {!results && !loading && (
+            <div className="empty-state">
+              <div className="empty-icon" style={{ fontSize: '32px', color: 'var(--text-muted)' }}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </div>
+              <p>Start searching your vault</p>
+              <div className="empty-sub">Enter a document title or folder name above</div>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
